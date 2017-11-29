@@ -1,0 +1,37 @@
+{
+  "name": "easycrypt",
+  "version": "0.1.0",
+  "description": "A simple bi-directional salting and encryption system designed for securing authentication tokens.",
+  "main": "index.js",
+  "scripts": {
+    "test": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' mocha test",
+    "ex":   "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node ex/intro-example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ALMaclaine/easycrypt.git"
+  },
+  "keywords": [
+    "easy",
+    "encryption",
+    "salt",
+    "hash",
+    "auth",
+    "token",
+    "security"
+  ],
+  "author": "Alessandro Maclaine",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ALMaclaine/easycrypt/issues"
+  },
+  "homepage": "https://github.com/ALMaclaine/easycrypt#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "randomstring": "^1.1.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  }
+}
