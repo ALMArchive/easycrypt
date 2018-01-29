@@ -1,21 +1,20 @@
-"use strict";
+import randomstring from 'randomstring';
+import crypto from 'crypto';
 
-const randomstring = require("randomstring");
 const genString = () => randomstring.generate({ length: 8 });
-
-const crypto = require('crypto'),
-  algorithm = 'aes-256-gcm',
-  password = process.env.EasyCryptPW || new Error("Must provide EasyCryptPW as a env variable");
+const algorithm = 'aes-256-gcm';
+const password = process.env.EasyCryptPW
+  || new Error('Must provide EasyCryptPW as a env variable');
 
 function encrypt(text, iv) {
-  iv || new Error("Must provide iv to encrypt");
+  if (!iv) Error('Must provide iv to encrypt');
   const cipher = crypto.createCipheriv(algorithm, password, iv);
-  let crypted  = cipher.update(text, 'utf8', 'hex');
-  crypted     += cipher.final('hex');
-  const tag    = cipher.getAuthTag();
+  let crypted = cipher.update(text, 'utf8', 'hex');
+  crypted += cipher.final('hex');
+  const tag = cipher.getAuthTag();
   return {
     content: crypted,
-    tag: tag
+    tag,
   };
 }
 
@@ -27,25 +26,23 @@ function decrypt(encrypted, iv) {
   return dec;
 }
 
-class EasyCrypt {
-
-  encrypt(text) {
-    const salt  = genString();
-    text       += `+${salt}`;
-    const iv    = genString();
-    let ret     = encrypt(text, iv);
-    ret.content = ret.content + `+${iv}`;
+export default class EasyCrypt {
+  static encrypt(text) {
+    let finalText = text;
+    const salt = genString();
+    finalText += `+${salt}`;
+    const iv = genString();
+    const ret = encrypt(finalText, iv);
+    ret.content += `+${iv}`;
     return ret;
   }
 
-  decrypt(cryptObj) {
-    const [crypted, iv]  = cryptObj.content.split("+");
+  static decrypt(cryptObj) {
+    const [crypted, iv] = cryptObj.content.split('+');
     const decryptObj = {};
     decryptObj.content = crypted;
-    decryptObj.tag     = cryptObj.tag;
+    decryptObj.tag = cryptObj.tag;
     const dcrypt = decrypt(decryptObj, iv);
-    return dcrypt.split("+")[0];
+    return dcrypt.split('+')[0];
   }
 }
-
-module.exports = EasyCrypt;

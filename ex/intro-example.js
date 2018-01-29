@@ -1,10 +1,9 @@
 "use strict";
 
-const EasyCrypt = require("../easycrypt.js");
-const ez = new EasyCrypt();
+import EasyCrypt from "../easycrypt";
 
 let stringToEncrypt = "This is easy.";
-let crypted = ez.encrypt(stringToEncrypt);
+let crypted = EasyCrypt.encrypt(stringToEncrypt);
 console.log(`Original: ${stringToEncrypt}`)
 console.log(`Crypted: ${crypted.content}`);
-console.log(`Decrypted: ${ez.decrypt(crypted)}`);
+console.log(`Decrypted: ${EasyCrypt.decrypt(crypted)}`);
