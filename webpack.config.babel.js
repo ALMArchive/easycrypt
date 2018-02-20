@@ -3,11 +3,12 @@ import path from "path";
 
 export default {
   entry: {
-    "easycrypt": "./easycrypt.js",
-    "easycrypt.min": "./easycrypt.js"
+    "easycrypt": "./easycrypt.js"
   },
   target: 'node',
   output: {
+    library: "easycrypt",
+    libraryTarget: "umd",
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js"
   },
