@@ -2,12 +2,10 @@
   "name": "easycrypt",
   "version": "0.1.3",
   "description": "A simple bi-directional salting and encryption system designed for securing authentication tokens.",
-  "main": "dist/easycrypt.js",
+  "main": "easycrypt.js",
   "scripts": {
     "test": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' mocha test",
-    "ex": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node ex/intro-example.js",
-    "build": "webpack",
-    "prepublishOnly": "npm run build"
+    "ex": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node ex/intro-example.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +20,7 @@
     "token",
     "security"
   ],
+  "files": ["easycrypt.js", "randomstring.js"],
   "author": "Alessandro Maclaine",
   "license": "MIT",
   "bugs": {
