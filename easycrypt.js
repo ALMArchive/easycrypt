@@ -1,48 +1,31 @@
 const crypto = require('crypto');
-const randomstring = require('randomstring');
+const randomstring = require('./randomstring.js');
 
-const genString = () => randomstring.generate({ length: 8 });
+const genString = () => randomstring(12);
+
 const algorithm = 'aes-256-gcm';
 const password = process.env.EasyCryptPW
   || new Error('Must provide EasyCryptPW as a env variable');
 
-function encrypt(text, iv) {
-  if (!iv) Error('Must provide iv to encrypt');
+function ezEncrypt(text) {
+  const salt = genString();
+  const finalText = `${text}${salt}`;
+  const iv = genString();
   const cipher = crypto.createCipheriv(algorithm, password, iv);
-  let crypted = cipher.update(text, 'utf8', 'hex');
-  crypted += cipher.final('hex');
-  const tag = cipher.getAuthTag();
-  return {
-    content: crypted,
-    tag,
-  };
+  const crypted = `${cipher.update(finalText, 'utf8').toString('base64')}${cipher.final('hex').toString('base64')}`;
+  const tag = cipher.getAuthTag().toString('base64');
+  return `${crypted}:${tag}:${iv}`;
 }
 
-function decrypt(encrypted, iv) {
+function ezDecrypt(crypt) {
+  const [crypted, tag, iv] = crypt.split(':');
   const decipher = crypto.createDecipheriv(algorithm, password, iv);
-  decipher.setAuthTag(encrypted.tag);
-  let dec = decipher.update(encrypted.content, 'hex', 'utf8');
-  dec += decipher.final('utf8');
-  return dec;
+  decipher.setAuthTag(Buffer.from(tag, 'base64'));
+  const base64Crypted = Buffer.from(crypted, 'base64');
+  return `${decipher.update(base64Crypted, 'hex', 'utf8')}${decipher.final('utf-8')}`;
 }
 
-module.exports = class EasyCrypt {
-  static encrypt(text) {
-    let finalText = text;
-    const salt = genString();
-    finalText += `+${salt}`;
-    const iv = genString();
-    const ret = encrypt(finalText, iv);
-    ret.content += `+${iv}`;
-    return ret;
-  }
-
-  static decrypt(cryptObj) {
-    const [crypted, iv] = cryptObj.content.split('+');
-    const decryptObj = {};
-    decryptObj.content = crypted;
-    decryptObj.tag = cryptObj.tag;
-    const dcrypt = decrypt(decryptObj, iv);
-    return dcrypt.split('+')[0];
-  }
+module.exports = {
+  ezEncrypt,
+  ezDecrypt,
 };

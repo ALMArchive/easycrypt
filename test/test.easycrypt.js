@@ -1,17 +1,19 @@
 const chai = require('chai');
-const EasyCrypt = require('../easycrypt');
+const { ezEncrypt, ezDecrypt } = require('../easycrypt');
 
 describe('EasyCrypt', () => {
   describe('Output Tests', () => {
-    it('Return from encrypt should have tag (Buffer) and content (string)', () => {
-      let out = EasyCrypt.encrypt('Easy');
-      chai.expect(!!out.content && !!out.tag).to.be.true;
-      chai.expect(out.tag.__proto__.constructor.name === 'Buffer').to.be.true;
-      chai.expect(typeof out.content === 'string').to.be.true;
+    it('Encrypt should give back string with 3 segments seperated by + signs', () => {
+      const input = 'Easy';
+      const crypted = ezEncrypt(input);
+      const numSegments = crypted.split(':').length;
+      chai.expect(numSegments === 3).to.be.true;
     });
-    it('Encrypt and decrypt should match', () => {
-      let input = 'Easy';
-      chai.expect(input === EasyCrypt.decrypt(EasyCrypt.encrypt(input))).to.be.true;
-    })
+    it('Encrypt and decrypt should give back salted password', () => {
+      const input = 'Easy';
+      const crypted = ezEncrypt(input);
+      const decrypted = ezDecrypt(crypted).slice(0, input.length);
+      chai.expect(input === decrypted).to.be.true;
+    });
   });
 });

@@ -9,7 +9,7 @@ const ez = new EasyCrypt();
 
 let stringToEncrypt = "This is easy.";
 let crypted = ez.encrypt(stringToEncrypt);
-console.log(`Crypted: ${crypted.content}`);
+console.log(`Crypted: ${crypted}`);
 console.log(`Decrypted: ${ez.decrypt(crypted)}`);
 ```
 
