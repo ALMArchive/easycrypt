@@ -2,15 +2,12 @@
 A simple bi-directional salting and encryption system designed for securing authentication tokens.
 
 ```javascript
-"use strict";
-
-const EasyCrypt = require("../EasyCrypt.js");
-const ez = new EasyCrypt();
+const { ezEncrypt, ezDecrypt } = require("../EasyCrypt.js");
 
 let stringToEncrypt = "This is easy.";
-let crypted = ez.encrypt(stringToEncrypt);
+let crypted = ezEncrypt(stringToEncrypt);
 console.log(`Crypted: ${crypted}`);
-console.log(`Decrypted: ${ez.decrypt(crypted)}`);
+console.log(`Decrypted: ${ezDecrypt(crypted)}`);
 ```
 
 ## Installing
@@ -19,7 +16,7 @@ console.log(`Decrypted: ${ez.decrypt(crypted)}`);
 ## API
 
 ### EasyCrypt
-Main class, constructor has no arguments and returns a EasyCrypt object.
+Require exports ezEncrpyt and ezDecrypt.
 
 #### Settings
 
@@ -34,14 +31,7 @@ From the command line:
 EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node EasyCrypt.js 
 ```
 
-#### Construction
-
-```javascript
-const EasyCrypt = require("../EasyCrypt.js");
-const ez        = new EasyCrypt();
-```
-
-#### Methods
+#### Functions
 
 ##### encrypt
 

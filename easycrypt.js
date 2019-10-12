@@ -14,11 +14,11 @@ function ezEncrypt(text) {
   const cipher = crypto.createCipheriv(algorithm, password, iv);
   const crypted = `${cipher.update(finalText, 'utf8').toString('base64')}${cipher.final('hex').toString('base64')}`;
   const tag = cipher.getAuthTag().toString('base64');
-  return `${crypted}:${tag}:${iv}`;
+  return `${crypted}:${salt}:${tag}:${iv}`;
 }
 
 function ezDecrypt(crypt) {
-  const [crypted, tag, iv] = crypt.split(':');
+  const [crypted, salt, tag, iv] = crypt.split(':'); // eslint-disable-line no-unused-vars
   const decipher = crypto.createDecipheriv(algorithm, password, iv);
   decipher.setAuthTag(Buffer.from(tag, 'base64'));
   const base64Crypted = Buffer.from(crypted, 'base64');

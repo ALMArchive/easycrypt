@@ -7,13 +7,15 @@ describe('EasyCrypt', () => {
       const input = 'Easy';
       const crypted = ezEncrypt(input);
       const numSegments = crypted.split(':').length;
-      chai.expect(numSegments === 3).to.be.true;
+      chai.expect(numSegments === 4).to.be.true;
     });
     it('Encrypt and decrypt should give back salted password', () => {
       const input = 'Easy';
       const crypted = ezEncrypt(input);
-      const decrypted = ezDecrypt(crypted).slice(0, input.length);
-      chai.expect(input === decrypted).to.be.true;
+      const salt = crypted.split(':')[1];
+      const decrypted = ezDecrypt(crypted);
+      chai.expect(input === decrypted.slice(0, input.length)).to.be.true;
+      chai.expect(salt === decrypted.slice(input.length)).to.be.true;
     });
   });
 });
