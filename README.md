@@ -1,13 +1,27 @@
 # EasyCrypt
 A simple bi-directional salting and encryption system designed for securing authentication tokens.
 
+## Basic Example
 ```javascript
-const { ezEncrypt, ezDecrypt } = require("../EasyCrypt.js");
+const { ezEncrypt, ezDecrypt } = require("easycrypt");
 
 let stringToEncrypt = "This is easy.";
 let crypted = ezEncrypt(stringToEncrypt);
 console.log(`Crypted: ${crypted}`);
-console.log(`Decrypted: ${ezDecrypt(crypted)}`);
+console.log(`Decrypted: ${ezDecrypt(crypted)}`); // This is easy.3@af2@F#Sd
+```
+
+## Validation Example
+```javascript
+// this is a contrived example
+const { ezDecrypt } = require("easycrypt");
+const encryptedString = database.getEncryptedString(); // get encrypted string
+const userInput = api.getUserInput(); // get user supplied string to compare to
+
+const salt = encryptedString.split(':');
+const decrypt = ezDecrypt(encryptedString);
+
+return `${userInput}${salt}` === decrypt;
 ```
 
 ## Installing
@@ -33,34 +47,32 @@ EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node EasyCrypt.js
 
 #### Functions
 
-##### encrypt
+##### ezEncrypt
 
-Used to salt an encrypt a piece of text.
+Used to salt and encrypt a piece of text.
 ```javascript
-const EasyCrypt = require("../EasyCrypt.js");
-const ez        = new EasyCrypt(/\S+/g);
-const text      = ez.encrypt("Easy");
+const { ezEncrypt } = require("easycrypt");
+const text = ezEncrypt("Easy");
 console.log(text);
 
-/* 
- * { content: '5cc07dd95c919de9544ed4f1f5+H9StNlQK',
- * tag: <Buffer 97 78 be 76 66 da 3c 71 ca fd 4e a0 07 d0 39 f8> }
-*/
-
-// This same object must be passed to decrypt, so store content and tag
+// x8PNf3Oq/NC/0+wAEvIaYw==:]RYY9)g6MdD@:daGjLpCvnJJy4s95XpNJ7w==:8LC)7$"'MQY)
+// This same string must be passed to decrypt so store it
 ```
-Returns object with authorization buffer and encrypted content.
+Returns an encryption key with four parts separated by colons.
+- First Section is the string + a salt encrypted together (x8PNf3Oq/NC/0+wAEvIaYw==)
+- Second Section is the Salt (]RYY9)g6MdD@)
+- third Section is the authTag (daGjLpCvnJJy4s95XpNJ7w==)
+- and finally the iv (8LC)7$"'MQY))
 
-##### decrypt
+##### ezDecrypt
 
-Used to salt an encrypt a piece of text.
+Used to decrypt a string encrypted with ezEnrypt.
 ```javascript
-const EasyCrypt = require("../EasyCrypt.js");
-const ez        = new EasyCrypt(/\S+/g);
-const text      = ez.encrypt("Easy");
-console.log(ez.decrypt(text)); // Easy
+const { ezEncrypt, ezDecrypt } = require("easycrypt");
+const text = ezEncrypt("Easy");
+console.log(ezDecrypt(text));
 ```
-Returns the original decrypted string.
+Returns the original decrypted string with the salt appended to the end.
 
 ## Scripts
 
