@@ -1,5 +1,5 @@
-import randomstring from 'randomstring';
-import crypto from 'crypto';
+const crypto = require('crypto');
+const randomstring = require('randomstring');
 
 const genString = () => randomstring.generate({ length: 8 });
 const algorithm = 'aes-256-gcm';
@@ -26,7 +26,7 @@ function decrypt(encrypted, iv) {
   return dec;
 }
 
-export default class EasyCrypt {
+module.exports = class EasyCrypt {
   static encrypt(text) {
     let finalText = text;
     const salt = genString();
@@ -45,4 +45,4 @@ export default class EasyCrypt {
     const dcrypt = decrypt(decryptObj, iv);
     return dcrypt.split('+')[0];
   }
-}
+};
