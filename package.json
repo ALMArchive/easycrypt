@@ -45,7 +45,6 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.0",
-    "is": "^3.2.1",
     "mocha": "^6.2.1",
     "randexp": "^0.4.6",
     "webpack": "^4.41.1"
