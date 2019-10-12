@@ -4,9 +4,8 @@
   "description": "A simple bi-directional salting and encryption system designed for securing authentication tokens.",
   "main": "dist/easycrypt.js",
   "scripts": {
-    "test": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' mocha -r @std/esm test",
-    "ex": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node -r @std/esm ex/intro-example.js",
-    "process": "node data/process.csv",
+    "test": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' mocha test",
+    "ex": "EasyCryptPW='3zTvzr3p67VC61jmV54rIYu1545x4TlY' node ex/intro-example.js",
     "build": "webpack",
     "prepublishOnly": "npm run build"
   },
@@ -30,11 +29,10 @@
   },
   "homepage": "https://github.com/ALMaclaine/easycrypt#readme",
   "dependencies": {
-    "crypto": "^1.0.1",
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.40",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.40",
     "@babel/polyfill": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.40",
