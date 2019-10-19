@@ -1,5 +1,5 @@
 const chai = require('chai');
-const { ezEncrypt, ezDecrypt } = require('../easycrypt');
+const { ezEncrypt, ezDecrypt, ezCompare } = require('../easycrypt');
 
 describe('EasyCrypt', () => {
   describe('Output Tests', () => {
@@ -16,6 +16,12 @@ describe('EasyCrypt', () => {
       const decrypted = ezDecrypt(crypted);
       chai.expect(input === decrypted.slice(0, input.length)).to.be.true;
       chai.expect(salt === decrypted.slice(input.length)).to.be.true;
+    });
+    it('ezCompare works', () => {
+      const input = 'Easy';
+      const crypted1 = ezEncrypt(input);
+
+      chai.expect(ezCompare(input, crypted1)).to.be.true;
     });
   });
 });

@@ -7,14 +7,21 @@ const algorithm = 'aes-256-gcm';
 const password = process.env.EasyCryptPW
   || new Error('Must provide EasyCryptPW as a env variable');
 
-function ezEncrypt(text) {
-  const salt = genString();
+function _ezEncrypt(text, salt, iv) {
   const finalText = `${text}${salt}`;
-  const iv = genString();
   const cipher = crypto.createCipheriv(algorithm, password, iv);
   const crypted = `${cipher.update(finalText, 'utf8').toString('base64')}${cipher.final('hex').toString('base64')}`;
   const tag = cipher.getAuthTag().toString('base64');
   return `${crypted}:${salt}:${tag}:${iv}`;
+}
+
+function ezEncrypt(text) {
+  return _ezEncrypt(text, genString(), genString());
+}
+
+function ezCompare(input, crypted) {
+  const [_, salt, __, iv] = crypted.split(':');
+  return _ezEncrypt(input, salt, iv) === crypted;
 }
 
 function ezDecrypt(crypt) {
@@ -28,4 +35,5 @@ function ezDecrypt(crypt) {
 module.exports = {
   ezEncrypt,
   ezDecrypt,
+  ezCompare,
 };

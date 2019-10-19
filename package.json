@@ -20,7 +20,10 @@
     "token",
     "security"
   ],
-  "files": ["easycrypt.js", "randomstring.js"],
+  "files": [
+    "easycrypt.js",
+    "randomstring.js"
+  ],
   "author": "Alessandro Maclaine",
   "license": "MIT",
   "bugs": {
