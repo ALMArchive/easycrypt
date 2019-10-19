@@ -1,6 +1,6 @@
 {
   "name": "easycrypt",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A simple bi-directional salting and encryption system designed for securing authentication tokens.",
   "main": "easycrypt.js",
   "scripts": {
