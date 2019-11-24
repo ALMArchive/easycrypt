@@ -1,5 +1,6 @@
 const chai = require('chai');
 const { ezEncrypt, ezDecrypt, ezCompare } = require('../easycrypt');
+const randstring = require('../randomstring.js');
 
 describe('EasyCrypt', () => {
   describe('Output Tests', () => {
@@ -23,5 +24,19 @@ describe('EasyCrypt', () => {
 
       chai.expect(ezCompare(input, crypted1)).to.be.true;
     });
+  });
+  it('passes massive random test', () => {
+    for(let i = 0; i < 10000; i++) {
+      const length = Math.floor(Math.random() * 24) + 4;
+      const randpass = randstring(length);
+  
+      const crypted = ezEncrypt(randpass);
+      const comp = ezCompare(randpass, crypted);
+
+      if(!comp) {
+        console.log(randpass);
+      }
+      chai.expect(comp).to.be.true;
+    }
   });
 });
